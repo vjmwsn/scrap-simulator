@@ -1,0 +1,13 @@
+    #memory {
+        max-width: 40rem;
+        word-wrap: break-word;
+        flex-wrap: wrap;
+    }
+
+    #inputarea {
+        min-width: 40rem;
+        min-height: max-content;
+        flex-wrap: wrap;
+    }
+
+  
