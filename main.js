@@ -38,7 +38,8 @@ function simulate () {
 // converts any integer into a 16 bit binary string
 function binary (key) {
     let binary = key
-    binary = binary.toString(2) ; binary = binary.padStart(16, "0")
+    binary = binary.toString(2)
+    binary = binary.padStart(16, "0")
     return binary
 }
 
