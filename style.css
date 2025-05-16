@@ -6,7 +6,7 @@
 
     #inputarea {
         min-width: 40rem;
-        min-height: max-content;
+        min-height: 50rem;
         flex-wrap: wrap;
     }
 
