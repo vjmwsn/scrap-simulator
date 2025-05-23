@@ -125,4 +125,6 @@ function command (cmd, adress, register) {
 }
 
 let runElement = document.querySelector("#run")
-runElement.addEventListener("Click", simulate)
+runElement.addEventListener("click", function() {
+    simulate()
+})
