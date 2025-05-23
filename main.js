@@ -35,13 +35,7 @@ function simulate () {
     let pointerElement = document.querySelector("#pointer") 
 
 }
-// converts any integer into a 16 bit binary string
-function binary (key) {
-    let binary = key
-    binary = binary.toString(2)
-    binary = binary.padStart(16, "0")
-    return binary
-}
+
 
 function command (cmd, adress, register) {
     let result = 0
@@ -129,4 +123,106 @@ runElement.addEventListener("click", function() {
     simulate()
 })
 
+let exportElement = document.querySelector("#exportBinary")
+runElement.addEventListener("click", function() {
+    exportCodeAsBinary()
+})
 // hello
+
+function exportCodeAsIs() {
+    let output = ""
+    for(let i=0;i<memory.length;i++){
+        output += memory[i] + "\n"
+    }
+    let blob = new Blob([output], {type: "text/plain"})
+    let url = URL.createObjectURL(blob)
+    let a = document.createElement("a")
+    a.href = url
+    a.download = "output.txt"
+    a.click()
+}
+
+// converts any integer into a 16 bit binary string
+function binary (key, length) {
+    let binary = key
+    binary = binary.toString(2)
+    binary = binary.padStart(length, "0")
+    return binary
+}
+
+function exportCodeAsBinary() {
+    let output = []
+    let blob = ""
+    let isNumber = false
+    for(let i=0;i<memory.length;i++){
+        switch(true) {
+            case memory[i][0] == "ADD":
+                blob = "000001"
+                break;
+            case memory[i][0] == "SUB":
+                blob = "000010"
+                break;
+            case memory[i][0] == "MUL":
+                blob = "000011"
+                break;
+            case memory[i][0] == "INC":
+                blob = "000100"
+                break;
+            case memory[i][0] == "DEC":
+                blob = "000101"
+                break;
+            case memory[i][0] == "AND":
+                blob = "000110"
+                break;
+            case memory[i][0] == "NOT":
+                blob = "000111"
+                break;
+            case memory[i][0] == "LTH":
+                blob = "001000"
+                break;
+            case memory[i][0] == "MTH":
+                blob = "001001"
+                break;
+            case memory[i][0] == "CPR":
+                blob = "001010"
+                break;
+            case memory[i][0] == "CPA":
+                blob = "001011"
+                break;
+            case memory[i][0] == "JMP":
+                blob = "001100"
+                break;
+            case memory[i][0] == "CJP":
+                blob = "001101"
+                break;
+            case memory[i][0] == "CLR":
+                blob = "001110"
+                break;
+            case memory[i][0] == "INV":
+                blob = "001111"
+                break;
+            case memory[i][0] == "HLT":
+                blob = "010000"
+                break;
+            default:
+                blob = parseInt(memory[i])
+                blob = binary(blob, 16)
+
+                isNumber = true
+                break;
+        }
+
+        if (isNumber != true) {
+        let arg1 = parseInt(memory[i][1]) || 0
+        let arg2 = parseInt(memory[i][2]) || 0
+        blob += binary(arg1, 8)
+        blob += binary(arg2, 2)
+        }
+        output.push(blob) 
+    }
+    document.querySelector("#output2").innerHTML = "machine code:" + output.join("\n")
+    return output
+
+    
+
+}
